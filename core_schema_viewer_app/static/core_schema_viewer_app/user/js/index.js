@@ -51,4 +51,5 @@ $(function() {
     $(".btn-download-template").on("click", onButtonDownloadClick);
     $("#schema_view").on("click", {destination_view: DestinationViews.TabbedView}, onButtonClick);
     $("#oxygen-viewer").on("click", {destination_view: DestinationViews.OxygenView}, onButtonClick);
+    $("#sandbox_view").on("click", {destination_view: DestinationViews.SandboxView}, onButtonClick);
 });

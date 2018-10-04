@@ -16,6 +16,8 @@ from core_main_app.components.template import api as template_api
 from core_main_app.utils.file import get_file_http_response
 from core_main_app.utils.rendering import render, django_render
 from core_schema_viewer_app.views.user.forms import FormDefaultTemplate
+from core_schema_viewer_app.components.sandbox_data_structure import api as sandbox_data_structure_api
+from core_schema_viewer_app.utils.parser import render_form
 
 
 @decorators.permission_required(content_type=rights.schema_viewer_content_type,
@@ -118,9 +120,95 @@ class SchemaViewerRedirectView(RedirectView):
                 destination_url = "core_schema_viewer_oxygen_viewer"
             elif destination_view == "tabbed":
                 destination_url = "core_schema_viewer_schema_viewer_tabbed"
+            elif destination_view == "sandbox":
+                destination_url = "core_schema_viewer_sandbox_view"
 
             # then redirect to the result page core_schema_viewer_schema_viewer_tabbed with /<template_id>/
             return reverse(destination_url, kwargs={"pk": str(template_id)})
         else:
             # messages.add_message(self.request, messages.ERROR, 'The given URL is not valid.')
             return reverse("core_schema_viewer_index")
+
+
+@decorators.permission_required(content_type=rights.schema_viewer_content_type,
+                                permission=rights.schema_viewer_access,
+                                login_url=reverse_lazy("core_main_app_login"))
+def sandbox_view(request, pk):
+    """Loads view to customize sandbox tree
+
+    Args:
+        request:
+        pk: template id
+
+    Returns:
+
+    """
+    try:
+        # Set the assets
+        assets = {
+            "js": [
+                {
+                    "path": 'core_main_app/common/js/XMLTree.js',
+                    "is_raw": False
+                },
+                {
+                    "path": "core_parser_app/js/autosave.js",
+                    "is_raw": False
+                },
+                {
+                    "path": "core_parser_app/js/autosave_checkbox.js",
+                    "is_raw": False
+                },
+                {
+                    "path": "core_parser_app/js/autosave.raw.js",
+                    "is_raw": True
+                },
+                {
+                    "path": "core_parser_app/js/buttons.js",
+                    "is_raw": False
+                },
+                {
+                    "path": "core_schema_viewer_app/user/js/buttons.raw.js",
+                    "is_raw": True
+                },
+                {
+                    "path": "core_parser_app/js/choice.js",
+                    "is_raw": False
+                },
+                {
+                    "path": "core_schema_viewer_app/user/js/choice.raw.js",
+                    "is_raw": True
+                },
+                {
+                    "path": "core_parser_app/js/modules.js",
+                    "is_raw": False
+                },
+            ],
+            "css": ['core_main_app/common/css/XMLTree.css',
+                    'core_schema_viewer_app/user/css/xsd_form.css',
+                    'core_parser_app/css/use.css']
+        }
+
+        template = template_api.get(pk)
+
+        # create the data structure
+        sandbox_data_structure = sandbox_data_structure_api.create_and_save(template, request.user.id)
+
+        # renders the form
+        xsd_form = render_form(request, sandbox_data_structure.data_structure_element_root)
+
+        # Set the context
+        context = {
+            "data_structure_id": str(sandbox_data_structure.id),
+            "xsd_form": xsd_form
+        }
+
+        return render(request,
+                      'core_schema_viewer_app/user/sandbox.html',
+                      assets=assets,
+                      context=context)
+    except Exception, e:
+        return render(request,
+                      'core_main_app/common/commons/error.html',
+                      assets={},
+                      context={'errors': 'An error occurred while rendering the tree.'})
