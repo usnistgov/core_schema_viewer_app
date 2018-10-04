@@ -15,11 +15,12 @@ def init_permissions():
     try:
         # Get or Create the default group
         default_group, created = Group.objects.get_or_create(name=main_rights.default_group)
-
+        anonymous_group, created = Group.objects.get_or_create(name=main_rights.anonymous_group)
         # Get schema_viewer permissions
         schema_viewer_access_perm = Permission.objects.get(codename=schema_viewer_rights.schema_viewer_access)
 
         # Add permissions to default group
         default_group.permissions.add(schema_viewer_access_perm)
+        anonymous_group.permissions.add(schema_viewer_access_perm)
     except Exception, e:
         print('ERROR : Impossible to init the permissions : ' + e.message)
