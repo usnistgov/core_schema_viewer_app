@@ -1,9 +1,10 @@
 """ Schema Viewer app user views
 """
-import os
 from abc import ABCMeta
+from os.path import join
 
 from django.contrib import messages
+from django.contrib.staticfiles import finders
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -14,7 +15,6 @@ import core_schema_viewer_app.permissions.rights as rights
 from core_main_app.components.template import api as template_api
 from core_main_app.utils.file import get_file_http_response
 from core_main_app.utils.rendering import render, django_render
-from core_schema_viewer_app.settings import BASE_DIR_CORE_SCHEMA_VIEWER_APP
 from core_schema_viewer_app.views.user.forms import FormDefaultTemplate
 
 
@@ -70,19 +70,11 @@ def oxygen_viewer(request, pk):
     """
     template = template_api.get(pk)
     file_name_html = template.filename.replace('.xsd', '.html')
-    try:
-        dir_list = os.listdir(os.path.join(BASE_DIR_CORE_SCHEMA_VIEWER_APP,
-                                           'core_schema_viewer_app',
-                                           'templates',
-                                           'core_schema_viewer_app',
-                                           'common',
-                                           'oxygen'))
-    except OSError, e:
-        message = e.strerror
-        messages.add_message(request, messages.ERROR, message)
-        return redirect(reverse("core_schema_viewer_index"))
 
-    if file_name_html in dir_list:
+    # find a file under static
+    url_file = finders.find(join('core_schema_viewer_app', 'common', 'oxygen', file_name_html))
+    if url_file:
+        # render a file under templates
         return django_render(request, "core_schema_viewer_app/common/oxygen/" + file_name_html)
     else:
         message = "The oxygen documentation file associated to the request template is not available. " \
