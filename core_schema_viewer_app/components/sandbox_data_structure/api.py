@@ -40,12 +40,32 @@ def create_and_save(template, user_id):
     """
     # generate the root element
     root_element = generate_form(template.content)
-    unique_name =  str(datetime.now()) + template.display_name
+    unique_name = str(datetime.now()) + template.display_name
     # create sandbox data structure
     sandbox_data_structure = SandboxDataStructure(user=str(user_id),
                                                   template=template,
                                                   name=unique_name,
                                                   data_structure_element_root=root_element)
+
+    # save the data structure
+    return upsert(sandbox_data_structure)
+
+
+def update_data_structure_root(sandbox_data_structure, root_element):
+    """Update the data structure with a root element.
+
+    Args:
+        sandbox_data_structure:
+        root_element:
+
+    Returns:
+
+    """
+    # Delete data structure elements
+    sandbox_data_structure.delete_data_structure_elements_from_root()
+
+    # set the root element in the data structure
+    sandbox_data_structure.data_structure_element_root = root_element
 
     # save the data structure
     return upsert(sandbox_data_structure)

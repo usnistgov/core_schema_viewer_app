@@ -15,6 +15,7 @@ import core_schema_viewer_app.permissions.rights as rights
 from core_main_app.components.template import api as template_api
 from core_main_app.utils.file import get_file_http_response
 from core_main_app.utils.rendering import render, django_render
+from core_parser_app.tools.parser.renderer.xml import XmlRenderer
 from core_schema_viewer_app.views.user.forms import FormDefaultTemplate
 from core_schema_viewer_app.components.sandbox_data_structure import api as sandbox_data_structure_api
 from core_schema_viewer_app.utils.parser import render_form
@@ -183,6 +184,10 @@ def sandbox_view(request, pk):
                     "path": "core_parser_app/js/modules.js",
                     "is_raw": False
                 },
+                {
+                    "path": 'core_schema_viewer_app/user/js/sandbox.js',
+                    "is_raw": False
+                },
             ],
             "css": ['core_main_app/common/css/XMLTree.css',
                     'core_schema_viewer_app/user/css/xsd_form.css',
@@ -212,3 +217,53 @@ def sandbox_view(request, pk):
                       'core_main_app/common/commons/error.html',
                       assets={},
                       context={'errors': 'An error occurred while rendering the tree.'})
+
+
+@decorators.permission_required(content_type=rights.schema_viewer_content_type,
+                                permission=rights.schema_viewer_access, login_url=reverse_lazy("core_main_app_login"))
+def download_xml(request, sandbox_data_structure_id):
+    """ Download XML file
+
+    Args:
+        request:
+        sandbox_data_structure_id:
+
+    Returns:
+
+    """
+    # get sandbox data structure
+    sandbox_data_structure = sandbox_data_structure_api.get_by_id(sandbox_data_structure_id)
+
+    # build XML renderer
+    xml_data = XmlRenderer(sandbox_data_structure.data_structure_element_root).render()
+
+    # build response with file
+    return get_file_http_response(file_content=xml_data,
+                                  file_name=sandbox_data_structure.name,
+                                  content_type='application/xml',
+                                  extension='xml')
+
+
+@decorators.permission_required(content_type=rights.schema_viewer_content_type,
+                                permission=rights.schema_viewer_access, login_url=reverse_lazy("core_main_app_login"))
+def preview_xml(request, sandbox_data_structure_id):
+    """ Preview XML file
+
+    Args:
+        request:
+        sandbox_data_structure_id:
+
+    Returns:
+
+    """
+    # get sandbox data structure
+    sandbox_data_structure = sandbox_data_structure_api.get_by_id(sandbox_data_structure_id)
+
+    # build XML renderer
+    xml_data = XmlRenderer(sandbox_data_structure.data_structure_element_root).render()
+
+    # build response with file
+    return render(request,
+                  'core_schema_viewer_app/user/sandbox_preview.html',
+                  assets={"css": ['core_main_app/common/css/XMLTree.css']},
+                  context={'xml_data': xml_data})
