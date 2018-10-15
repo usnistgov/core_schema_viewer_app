@@ -38,11 +38,12 @@ var downloadTemplate = function(template_id){
  * redirect to schemaViewTabbed
  */
 var redirectToView = function(template_id, destination) {
-    $(location).attr('href', redirectUrl
-                                + "?template_id="
-                                + template_id
-                                + "&destination_view="
-                                + destination);
+    var url = redirectUrl
+                + "?template_id="
+                + template_id
+                + "&destination_view="
+                + destination
+    window.open(url, '_blank');
 }
 
 // .ready() called.
