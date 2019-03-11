@@ -32,7 +32,7 @@ chdir(normpath(join(abspath(__file__), pardir)))
 
 setup(
     name="core_schema_viewer_app",
-    version="1.0.0-rc1",
+    version="1.0.0",
     description="Schema Viewer app",
     long_description=long_desc,
     author="NIST IT Lab",
