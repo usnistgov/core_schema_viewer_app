@@ -1,7 +1,11 @@
 """ Template schema viewer api
 """
-from core_schema_viewer_app.components.template_schema_viewer.models import TemplateSchemaViewer
+import logging
+
 from core_main_app.commons import exceptions
+from core_schema_viewer_app.components.template_schema_viewer.models import TemplateSchemaViewer
+
+logger = logging.getLogger(__name__)
 
 
 def upsert(template_schema_viewer):
@@ -104,7 +108,7 @@ def set_default(template_schema_viewer):
     except exceptions.DoesNotExist:
         # in case there is no default template schema viewer yet
         # nothing to do, we could log it
-        pass
+        logger.warning("set_default threw an exception: %s" % str(e))
 
     # set template_schema_viewer to default
     template_schema_viewer.toggle_default()

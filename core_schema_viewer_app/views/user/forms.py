@@ -1,9 +1,13 @@
 """ Form needed for the user part
 """
+import logging
+
 from django import forms
 
 from core_main_app.commons.exceptions import DoesNotExist
 from core_schema_viewer_app.components.template_schema_viewer import api as template_schema_viewer_api
+
+logger = logging.getLogger(__name__)
 
 
 class FormDefaultTemplate(forms.Form):
@@ -53,4 +57,4 @@ class FormDefaultTemplate(forms.Form):
         try:
             self.initial['schema'] = template_schema_viewer_api.get_default().template.id
         except DoesNotExist:
-            pass
+            logger.warning("set_default threw an exception: %s" % str(e))
