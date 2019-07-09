@@ -21,7 +21,7 @@ def toggle_template_schema_visibility(request):
         template_schema = template_schema_viewer_api.get_by_id(template_schema_id)
         template_schema_viewer_api.toggle_visibility(template_schema)
         return HttpResponse(json.dumps({}), content_type='application/javascript')
-    except Exception, e:
+    except Exception as e:
         return HttpResponseBadRequest(e.message, content_type='application/javascript')
 
 
@@ -39,5 +39,5 @@ def set_template_schema_default(request):
         template_schema = template_schema_viewer_api.get_by_id(template_schema_id)
         template_schema_viewer_api.set_default(template_schema)
         return HttpResponse(json.dumps({}), content_type='application/javascript')
-    except Exception, e:
+    except Exception as e:
         return HttpResponseBadRequest(e.message, content_type='application/javascript')

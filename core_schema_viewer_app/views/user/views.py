@@ -212,7 +212,7 @@ def sandbox_view(request, pk):
                       'core_schema_viewer_app/user/sandbox.html',
                       assets=assets,
                       context=context)
-    except Exception, e:
+    except Exception as e:
         return render(request,
                       'core_main_app/common/commons/error.html',
                       assets={},

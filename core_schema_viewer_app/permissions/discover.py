@@ -1,9 +1,11 @@
 """ Initialize permissions for core schema viewer app
 """
 from django.contrib.auth.models import Group, Permission
+import logging
 
 import core_main_app.permissions.rights as main_rights
 import core_schema_viewer_app.permissions.rights as schema_viewer_rights
+logger = logging.getLogger(__name__)
 
 
 def init_permissions():
@@ -22,5 +24,5 @@ def init_permissions():
         # Add permissions to default group
         default_group.permissions.add(schema_viewer_access_perm)
         anonymous_group.permissions.add(schema_viewer_access_perm)
-    except Exception, e:
-        print('ERROR : Impossible to init the permissions : ' + e.message)
+    except Exception as e:
+        logger.error('ERROR : Impossible to init the permissions : ' + e.message)

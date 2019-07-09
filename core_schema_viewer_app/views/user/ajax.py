@@ -28,7 +28,7 @@ def generate_element(request, sandbox_data_structure_id):
         element_id = request.POST['id']
         sandbox_data_structure = sandbox_data_structure_api.get_by_id(sandbox_data_structure_id)
         html_form = generate_element_absent(request, element_id, sandbox_data_structure.template.content)
-    except Exception, e:
+    except Exception as e:
         return HttpResponseBadRequest()
 
     return HttpResponse(html_form)
@@ -50,7 +50,7 @@ def generate_choice(request, sandbox_data_structure_id):
         element_id = request.POST['id']
         sandbox_data_structure = sandbox_data_structure_api.get_by_id(sandbox_data_structure_id)
         html_form = generate_choice_absent(request, element_id, sandbox_data_structure.template.content)
-    except Exception, e:
+    except Exception as e:
         return HttpResponseBadRequest()
 
     return HttpResponse(html_form)

@@ -56,5 +56,5 @@ class FormDefaultTemplate(forms.Form):
         # Set the default template if it exists
         try:
             self.initial['schema'] = template_schema_viewer_api.get_default().template.id
-        except DoesNotExist:
+        except DoesNotExist as e:
             logger.warning("set_default threw an exception: %s" % str(e))
