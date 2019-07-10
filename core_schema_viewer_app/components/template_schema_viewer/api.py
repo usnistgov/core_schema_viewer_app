@@ -105,7 +105,7 @@ def set_default(template_schema_viewer):
         default_template_schema_viewer = get_default()
         default_template_schema_viewer.toggle_default()
         upsert(default_template_schema_viewer)
-    except exceptions.DoesNotExist:
+    except exceptions.DoesNotExist as e:
         # in case there is no default template schema viewer yet
         # nothing to do, we could log it
         logger.warning("set_default threw an exception: %s" % str(e))

@@ -88,9 +88,9 @@ class TemplateSchemaViewer(Document):
         try:
             return TemplateSchemaViewer.objects.get(is_default=True)
         except mongoengine_errors.DoesNotExist as e:
-            raise exceptions.DoesNotExist(e.message)
+            raise exceptions.DoesNotExist(str(e))
         except Exception as ex:
-            raise exceptions.ModelError(ex.message)
+            raise exceptions.ModelError(str(ex))
 
     @staticmethod
     def get_all_by_visibility(is_visible=True):

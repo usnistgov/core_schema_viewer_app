@@ -107,8 +107,7 @@ def download_template(request):
         return redirect(reverse("core_schema_viewer_index"))
 
 
-class SchemaViewerRedirectView(RedirectView):
-    __metaclass__ = ABCMeta
+class SchemaViewerRedirectView(RedirectView, metaclass=ABCMeta):
 
     def get_redirect_url(self, *args, **kwargs):
         # here we receive a template id

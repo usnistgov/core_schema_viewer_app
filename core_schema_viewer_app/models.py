@@ -7,7 +7,7 @@ from core_schema_viewer_app.permissions import rights
 
 
 class SchemaViewer(models.Model):
-    class Meta:
+    class Meta(object):
         verbose_name = 'core_schema_viewer_app'
         default_permissions = ()
         permissions = (
