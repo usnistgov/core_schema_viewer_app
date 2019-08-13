@@ -25,4 +25,4 @@ def init_permissions():
         default_group.permissions.add(schema_viewer_access_perm)
         anonymous_group.permissions.add(schema_viewer_access_perm)
     except Exception as e:
-        logger.error('ERROR : Impossible to init the permissions : ' + e.message)
+        logger.error('ERROR : Impossible to init the permissions : ' + str(e))

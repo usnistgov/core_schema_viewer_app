@@ -53,9 +53,9 @@ class TemplateSchemaViewer(Document):
         try:
             return TemplateSchemaViewer.objects.get(template=str(template_id))
         except mongoengine_errors.DoesNotExist as e:
-            raise exceptions.DoesNotExist(e.message)
+            raise exceptions.DoesNotExist(str(e))
         except Exception as ex:
-            raise exceptions.ModelError(ex.message)
+            raise exceptions.ModelError(str(ex))
 
     @staticmethod
     def get_by_id(pk):
@@ -71,9 +71,9 @@ class TemplateSchemaViewer(Document):
         try:
             return TemplateSchemaViewer.objects.get(pk=str(pk))
         except mongoengine_errors.DoesNotExist as e:
-            raise exceptions.DoesNotExist(e.message)
+            raise exceptions.DoesNotExist(str(e))
         except Exception as ex:
-            raise exceptions.ModelError(ex.message)
+            raise exceptions.ModelError(str(ex))
 
     @staticmethod
     def get_default():

@@ -29,4 +29,4 @@ def delete_old_sandbox_data_structures():
             logger.info("Periodic task: delete sandbox data structure {}.".format(str(old_data_structure.id)))
             old_data_structure.delete()
     except Exception as e:
-        logger.error("An error occurred while deleting sandbox data structures ({}).".format(e.message))
+        logger.error("An error occurred while deleting sandbox data structures ({}).".format(str(e)))
