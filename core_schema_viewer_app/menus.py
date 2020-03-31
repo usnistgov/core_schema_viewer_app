@@ -1,6 +1,7 @@
 """ Add View Schema in main menu
 """
-from django.core.urlresolvers import reverse
+from django.urls import reverse
+
 from menu import Menu, MenuItem
 from core_schema_viewer_app.settings import SCHEMA_VIEWER_MENU_NAME
 
