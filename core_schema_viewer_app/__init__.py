@@ -1,4 +1,4 @@
 """ Core schema viewer package
 """
 
-default_app_config = 'core_schema_viewer_app.apps.SchemaViewerAppConfig'
+default_app_config = "core_schema_viewer_app.apps.SchemaViewerAppConfig"

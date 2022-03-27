@@ -4,17 +4,20 @@ from mongoengine import errors as mongoengine_errors
 
 from core_main_app.commons import exceptions as exceptions
 from core_parser_app.components.data_structure.models import DataStructure
-from core_parser_app.tools.parser import parser
 from signals_utils.signals.mongo import connector, signals
+from core_schema_viewer_app.permissions import rights
 
 
 class SandboxDataStructure(DataStructure):
-    """ Sandbox data structure
-    """
+    """Sandbox data structure"""
+
+    @staticmethod
+    def get_permission():
+        return f"{rights.schema_viewer_content_type}.{rights.schema_viewer_sandbox_data_structure_access}"
 
     @staticmethod
     def get_by_id(data_structure_id):
-        """ Return the object with the given id.
+        """Return the object with the given id.
 
         Args:
             data_structure_id:
@@ -32,7 +35,7 @@ class SandboxDataStructure(DataStructure):
 
     @staticmethod
     def get_all():
-        """ Return all data structures
+        """Return all data structures
 
         Returns:
 

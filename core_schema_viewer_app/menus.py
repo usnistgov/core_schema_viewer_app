@@ -10,9 +10,11 @@ Menu.add_item(
 )
 
 schema_viewer_children = (
-    MenuItem("Templates Visibility", reverse("admin:core_schema_viewer_app_template"), icon="list"),
+    MenuItem(
+        "Templates Visibility",
+        reverse("admin:core_schema_viewer_app_template"),
+        icon="list",
+    ),
 )
 
-Menu.add_item(
-    "admin", MenuItem("SCHEMA VIEWER", None, children=schema_viewer_children)
-)
+Menu.add_item("admin", MenuItem("SCHEMA VIEWER", None, children=schema_viewer_children))

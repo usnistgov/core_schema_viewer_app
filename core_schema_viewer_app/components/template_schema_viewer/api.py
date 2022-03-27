@@ -3,13 +3,15 @@
 import logging
 
 from core_main_app.commons import exceptions
-from core_schema_viewer_app.components.template_schema_viewer.models import TemplateSchemaViewer
+from core_schema_viewer_app.components.template_schema_viewer.models import (
+    TemplateSchemaViewer,
+)
 
 logger = logging.getLogger(__name__)
 
 
 def upsert(template_schema_viewer):
-    """ Save or update TemplateSchemaViewer
+    """Save or update TemplateSchemaViewer
 
     Args:
         template_schema_viewer:
@@ -22,7 +24,7 @@ def upsert(template_schema_viewer):
 
 
 def get_all():
-    """ List all TemplateSchemaViewer
+    """List all TemplateSchemaViewer
 
     Returns:
         TemplateSchemaViewer(obj): list of TemplateSchemaViewer
@@ -32,7 +34,7 @@ def get_all():
 
 
 def get_by_template_id(template_id):
-    """ Return the object with the given template id.
+    """Return the object with the given template id.
 
     Args:
         template_id:
@@ -45,7 +47,7 @@ def get_by_template_id(template_id):
 
 
 def get_by_id(pk):
-    """ Return the object with the given id.
+    """Return the object with the given id.
 
     Args:
         pk:
@@ -58,7 +60,7 @@ def get_by_id(pk):
 
 
 def get_default():
-    """ Return the default default object
+    """Return the default default object
 
     Returns:
         TemplateSchemaViewer(obj): TemplateSchemaViewer
@@ -68,7 +70,7 @@ def get_default():
 
 
 def get_all_by_visibility(is_visible=True):
-    """ Return all TemplateSchemaViewer with the visibility given
+    """Return all TemplateSchemaViewer with the visibility given
 
     Returns:
         TemplateSchemaViewer(obj): list of TemplateSchemaViewer
@@ -78,7 +80,7 @@ def get_all_by_visibility(is_visible=True):
 
 
 def toggle_visibility(template_schema_viewer):
-    """ Toggle the visibility of an object
+    """Toggle the visibility of an object
 
     Args:
         template_schema_viewer:
@@ -91,7 +93,7 @@ def toggle_visibility(template_schema_viewer):
 
 
 def set_default(template_schema_viewer):
-    """ Toggle the current
+    """Toggle the current
         Toggle the given one
 
     Args:
